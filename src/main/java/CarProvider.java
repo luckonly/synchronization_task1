@@ -1,32 +1,46 @@
-import java.util.List;
-
-public class CarProvider {
+public class CarProvider implements Runnable{
 
     String name;
     String mark;
 
-    final int MAKE_NEW_CAR_TIME = 5000;
+    final Shop shop;
 
-    public CarProvider(String name, String mark) {
-        this.name = name;
-        this.mark = mark;
-    }
+    final int MAX_CAR_VALUE = 6;
+    final int START_CAR_VALUE = 1;
+    final int MAKE_NEW_CAR_TIME = 1000;
 
-    public synchronized void makeNewCar(List<String> carList) {
+    public CarProvider(Shop shop) {
 
-        System.out.println("Поступил заказ на новый автомобиль от " + Thread.currentThread().getName() + ". Начинаем производство");
+        this.name = "VOLKSWAGEN GROUP";
+        this.mark = "Audi";
+        this.shop = shop;
 
-        try {
-            Thread.sleep(MAKE_NEW_CAR_TIME);
-        } catch (InterruptedException exc) {
-            System.out.println("Что-то пошло не так... ");
-            exc.printStackTrace();
+        for (int i = 0; i < START_CAR_VALUE; i++) {
+            shop.addNewCars();
         }
 
-        System.out.println("Автомобиль готов и передан в магазин для продажи");
-        carList.add("Автомобиль");
-        notify();
+    }
 
+    public void makeNewCar() {
+
+        for (int i = 0; i < MAX_CAR_VALUE; i++) {
+
+            try {
+                Thread.sleep(MAKE_NEW_CAR_TIME);
+            } catch (InterruptedException exc) {
+                exc.printStackTrace();
+            }
+
+            shop.addNewCars();
+            System.out.println("Автомобиль готов и передан в магазин для продажи");
+
+        }
+
+    }
+
+    @Override
+    public void run() {
+        this.makeNewCar();
     }
 
 }

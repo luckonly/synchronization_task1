@@ -3,20 +3,13 @@ import java.util.List;
 
 public class Shop implements Runnable {
 
-    List<String> carList;
-    CarProvider carProvider;
+    static List<String> carList = new ArrayList<>(10);
 
     final int SELL_TIME = 1000;
-    final int NUMBER_OF_CARS = 5;
 
-    public Shop() {
-
-        this.carList = new ArrayList<>(10);
-        for (int i = 0; i < NUMBER_OF_CARS; i++) {
-            this.carList.add("Автомобиль");
-        }
-
-        this.carProvider = new CarProvider("VOLKSWAGEN GROUP", "Audi");
+    public synchronized void addNewCars() {
+        carList.add("Новый автомобиль");
+        notify();
     }
 
     public synchronized void sellCar() {
@@ -25,7 +18,6 @@ public class Shop implements Runnable {
 
             if (carList.size() == 0 ) {
                 System.out.println(Thread.currentThread().getName() + " вcтал в очередь и ожидает нового автомобиля");
-                carProvider.makeNewCar(carList);
             }
 
             while (carList.size() == 0) { //Встал в очередь и ожидает нового автомобиля

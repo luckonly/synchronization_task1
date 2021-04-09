@@ -1,10 +1,10 @@
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         Shop shop = new Shop();
+        CarProvider carProvider = new CarProvider(shop);
 
-        new Thread(null, shop, "Дмитрий").start();
         new Thread(null, shop, "Иван").start();
         new Thread(null, shop, "Анатолий").start();
         new Thread(null, shop, "Сергей").start();
@@ -13,5 +13,6 @@ public class Main {
         new Thread(null, shop, "Елена").start();
         new Thread(null, shop, "Татьяна").start();
 
+        new Thread(null, carProvider, "Производство автомобилей").start();
     }
 }
