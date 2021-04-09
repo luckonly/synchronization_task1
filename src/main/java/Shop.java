@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Shop implements Runnable {
+public class Shop {
 
     static List<String> carList = new ArrayList<>(10);
 
@@ -32,12 +32,6 @@ public class Shop implements Runnable {
             exc.printStackTrace();
         }
 
-    }
-
-    @Override
-    public void run() { //Продажа автомобиля - если нету, то заказываем новый на заводе
-        System.out.println(Thread.currentThread().getName() + " пришел в магазин");
-        this.sellCar();
     }
 
 }
